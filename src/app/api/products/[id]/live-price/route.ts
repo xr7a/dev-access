@@ -15,7 +15,6 @@ export async function GET(
             select: {
                 digisellerProductId: true,
                 price: true,
-                currency: true
             }
         })
 
