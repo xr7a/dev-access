@@ -84,7 +84,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         notFound()
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://digistore.ru'
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://devaccess.ru'
     const currentPrice = product.discountPrice ? Number(product.discountPrice) : Number(product.price)
     const hasDiscount = product.discountPrice && Number(product.discountPrice) < Number(product.price)
     const totalSales = product.salesCount + product.digisellerSalesCount

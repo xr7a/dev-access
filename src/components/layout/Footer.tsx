@@ -39,13 +39,13 @@ export function Footer() {
                         </p>
                         <div className="mt-6 flex gap-4">
                             <a
-                                href="mailto:support@digistore.ru"
+                                href="mailto:ivandesyatov3@gmail.com"
                                 className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-800 text-slate-400 transition-colors hover:bg-slate-700 hover:text-white"
                             >
                                 <Mail className="h-5 w-5" />
                             </a>
                             <a
-                                href="https://t.me/digistore"
+                                href="https://t.me/ivandesyatov3"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-800 text-slate-400 transition-colors hover:bg-slate-700 hover:text-white"
