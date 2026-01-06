@@ -1,0 +1,36 @@
+{
+    "common": {
+        "search_placeholder": "Поиск товаров...",
+        "all": "Все",
+        "clear_filters": "Сбросить фильтры",
+        "active_filters": "Активные фильтры:",
+        "back_to_catalog": "Назад в каталог",
+        "description": "Описание",
+        "buy_count": "Уже купили: {count} раз",
+        "hot": "Хит",
+        "promo": "Промо"
+    },
+    "categories": {
+        "title": "Категории",
+        "neural-networks": "Нейросети",
+        "vpn": "VPN и Прокси",
+        "subscriptions": "Подписки",
+        "games": "Игры и Ключи",
+        "security": "Безопасность",
+        "development": "Разработка",
+        "digital": "Цифровые товары",
+        "media": "Медиа"
+    },
+    "sort": {
+        "title": "Сортировка",
+        "smart": "Рекомендуемые",
+        "new": "Новинки",
+        "popular": "Популярные",
+        "price_asc": "Цена ↑",
+        "price_desc": "Цена ↓"
+    },
+    "actions": {
+        "buy": "Купить",
+        "add_to_cart": "В корзину"
+    }
+}

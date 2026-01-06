@@ -1,0 +1,67 @@
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:16-alpine
+    container_name: devaccess-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-devaccess}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Database password required}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - devaccess-network
+
+  # Next.js Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: devaccess-app
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-devaccess}
+      NEXTAUTH_URL: ${NEXTAUTH_URL:?NextAuth URL required}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:?NextAuth secret required}
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:?Public URL required}
+      DIGISELLER_SELLER_ID: ${DIGISELLER_SELLER_ID:?Digiseller seller ID required}
+      DIGISELLER_API_KEY: ${DIGISELLER_API_KEY:?Digiseller API key required}
+    ports:
+      - "3000:3000"
+    networks:
+      - devaccess-network
+
+  # Nginx Reverse Proxy (optional, for SSL)
+  nginx:
+    image: nginx:alpine
+    container_name: devaccess-nginx
+    restart: unless-stopped
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    networks:
+      - devaccess-network
+    profiles:
+      - with-nginx
+
+volumes:
+  postgres_data:
+
+networks:
+  devaccess-network:
+    driver: bridge

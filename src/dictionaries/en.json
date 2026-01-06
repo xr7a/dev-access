@@ -1,0 +1,36 @@
+{
+    "common": {
+        "search_placeholder": "Search products...",
+        "all": "All",
+        "clear_filters": "Clear filters",
+        "active_filters": "Active filters",
+        "back_to_catalog": "Back to Catalog",
+        "description": "Description",
+        "buy_count": "purchased {count} times",
+        "hot": "Hot",
+        "promo": "Promo"
+    },
+    "categories": {
+        "title": "Categories",
+        "neural-networks": "Neural Networks",
+        "vpn": "VPN & Proxy",
+        "subscriptions": "Subscriptions",
+        "games": "Games & Keys",
+        "security": "Security",
+        "development": "Development",
+        "digital": "Digital Goods",
+        "media": "Media"
+    },
+    "sort": {
+        "title": "Sort by",
+        "smart": "Recommended",
+        "new": "Newest",
+        "popular": "Popular",
+        "price_asc": "Price: Low to High",
+        "price_desc": "Price: High to Low"
+    },
+    "actions": {
+        "buy": "Buy",
+        "add_to_cart": "Add to Cart"
+    }
+}
