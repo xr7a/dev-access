@@ -1,13 +1,9 @@
 import { NextResponse } from 'next/server'
 import { digiseller } from '@/lib/digiseller'
 
-export async function POST(
-    req: Request,
-    { params }: { params: { id: string } }
-) {
+export async function POST(req: Request) {
     try {
-        const productId = parseInt(params.id)
-        // If local ID is UUID, this will be NaN. 
+        // digisellerId is passed in body 
         // We need digiseller ID. 
         // However, this route is /api/admin/products/[id]/clone. 
         // If [id] is local UUID, we must fetch product to get digiseller ID.
