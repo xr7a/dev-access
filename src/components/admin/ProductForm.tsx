@@ -20,11 +20,13 @@ const productSchema = z.object({
     price: z.coerce.number().min(0),
     discountPrice: z.coerce.number().optional(),
     category: z.string().min(1, 'Категория обязательна'),
-    tags: z.string().optional(), // We'll parse comma separated string
+    tags: z.string().optional(),
     imageUrl: z.string().url().optional().or(z.literal('')),
     digisellerProductId: z.string().optional(),
     isActive: z.boolean().default(true),
 })
+
+type ProductFormValues = z.infer<typeof productSchema>
 
 interface ProductFormProps {
     initialData?: Product
@@ -36,8 +38,9 @@ export function ProductForm({ initialData, isEdit = false }: ProductFormProps) {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
 
-    const form = useForm<z.infer<typeof productSchema>>({
-        resolver: zodResolver(productSchema),
+    const form = useForm<ProductFormValues>({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        resolver: zodResolver(productSchema) as any,
         defaultValues: {
             title: initialData?.title || '',
             description: initialData?.description || '',
@@ -52,7 +55,7 @@ export function ProductForm({ initialData, isEdit = false }: ProductFormProps) {
         },
     })
 
-    async function onSubmit(values: z.infer<typeof productSchema>) {
+    async function onSubmit(values: ProductFormValues) {
         setLoading(true)
         setError('')
 

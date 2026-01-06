@@ -9,7 +9,6 @@ export async function GET(
     try {
         const productId = (await params).id
 
-        // 1. Get product from local DB to find its Digiseller ID
         const product = await prisma.product.findUnique({
             where: { id: productId },
             select: {
@@ -22,33 +21,35 @@ export async function GET(
             return NextResponse.json({ error: 'Product not found' }, { status: 404 })
         }
 
-        // 2. Fetch live details from Digiseller
-        // We use getProduct to get simple info (price/currency)
-        // Or getProductDetails for valid status.
-        // getProduct is lighter.
-
-        let liveData = null
         try {
-            liveData = await digiseller.getProduct(product.digisellerProductId)
-        } catch (e) {
-            console.error('Failed to fetch live data', e)
-            // Fallback to local data if API fails
+            const liveData = await digiseller.getProduct(product.digisellerProductId)
+
+            if (!liveData) {
+                return NextResponse.json({
+                    price: Number(product.price),
+                    currency: 'RUB',
+                    isAvailable: true,
+                    checkError: true
+                })
+            }
+
+            return NextResponse.json({
+                price: liveData.price,
+                currency: liveData.currency,
+                isAvailable: true,
+                digisellerId: product.digisellerProductId
+            })
+        } catch {
             return NextResponse.json({
                 price: Number(product.price),
-                currency: 'RUB', // Assuming RUB as default for local
+                currency: 'RUB',
                 isAvailable: true,
                 checkError: true
             })
         }
 
-        return NextResponse.json({
-            price: liveData.price,
-            currency: liveData.currency,
-            isAvailable: true, // Digiseller API usually throws or returns null if hidden/deleted
-            digisellerId: product.digisellerProductId
-        })
-
-    } catch (error) {
+    } catch {
         return NextResponse.json({ error: 'Internal Error' }, { status: 500 })
     }
 }
+
